@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emmanuel — Comprehensive Word Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C8A96E;
+  --gold-light: #D4BC8B;
+  --gold-faint: rgba(200, 169, 110, 0.08);
+  --ink: #1C1917;
+  --ink-soft: #3D3833;
+  --ink-muted: #78716C;
+  --cream: #FAF8F5;
+  --cream-dark: #F0EDE8;
+  --parchment: #F5F1EB;
+  --accent: #5B3A29;
+  --accent-light: #7D5A4F;
+  --scripture-bg: #F8F5F0;
+  --scripture-border: #D4BC8B;
+  --divider: #D6CFC4;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 18px; }
+
+body {
+  font-family: 'EB Garamond', 'Georgia', serif;
+  background: var(--cream);
+  color: var(--ink-soft);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle parchment texture via gradient */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(200,169,110,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(91,58,41,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(200,169,110,0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(250, 248, 245, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--divider);
+  transition: box-shadow 0.3s ease;
+}
+
+nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+
+nav .nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav .nav-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+nav .nav-links a {
+  font-family: 'Spectral', serif;
+  font-size: 0.78rem;
+  color: var(--ink-muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+
+nav .nav-links a:hover { color: var(--gold); }
+
+/* ===== HERO / TITLE ===== */
+.hero {
+  padding: 8rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.hero .label {
+  font-family: 'Spectral', serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.hero .hebrew {
+  font-family: 'Times New Roman', serif;
+  font-size: 2.6rem;
+  color: var(--ink-muted);
+  margin-bottom: 0.3rem;
+  direction: rtl;
+}
+
+.hero .greek {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--ink-muted);
+  margin-bottom: 2rem;
+}
+
+.hero .subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--accent-light);
+  margin-bottom: 1rem;
+}
+
+.hero .meta {
+  font-family: 'Spectral', serif;
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.8;
+}
+
+/* ===== MAIN CONTENT ===== */
+.content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+
+/* Section headings */
+h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 3.5rem 0 1rem;
+  padding-top: 1rem;
+  line-height: 1.25;
+}
+
+h2 .section-num {
+  display: block;
+  font-family: 'Spectral', serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 2.5rem 0 0.8rem;
+  line-height: 1.3;
+}
+
+h4 {
+  font-family: 'Spectral', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 1.8rem 0 0.6rem;
+  letter-spacing: 0.02em;
+}
+
+p {
+  margin-bottom: 1.2rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Scripture blocks */
+.scripture {
+  margin: 1.5rem 0;
+  padding: 1.2rem 1.5rem;
+  background: var(--scripture-bg);
+  border-left: 3px solid var(--scripture-border);
+  border-radius: 0 6px 6px 0;
+  position: relative;
+}
+
+.scripture .ref {
+  font-family: 'Spectral', serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.scripture .text {
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* Emphasis / key terms */
+.key { color: var(--accent); font-weight: 600; }
+.hebrew-inline { font-family: 'Times New Roman', serif; direction: rtl; unicode-bidi: isolate; }
+.greek-inline { font-style: italic; }
+.bold { font-weight: 600; }
+
+/* Divider */
+.divider {
+  margin: 3rem auto;
+  text-align: center;
+  position: relative;
+}
+
+.divider::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--divider);
+  position: absolute;
+  top: 50%;
+}
+
+.divider span {
+  position: relative;
+  background: var(--cream);
+  padding: 0 1.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+/* Reference Table */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.88rem;
+}
+
+.ref-table th {
+  font-family: 'Spectral', serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: var(--accent);
+  padding: 0.7rem 1rem;
+  text-align: left;
+}
+
+.ref-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--divider);
+  vertical-align: top;
+}
+
+.ref-table tr:nth-child(even) td {
+  background: var(--gold-faint);
+}
+
+.ref-table .passage {
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* Linguistic breakdown table */
+.ling-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0 1.5rem;
+  font-size: 0.92rem;
+}
+
+.ling-table th {
+  font-family: 'Spectral', serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--cream-dark);
+  padding: 0.6rem 1rem;
+  text-align: left;
+  border-bottom: 2px solid var(--gold-light);
+}
+
+.ling-table td {
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--divider);
+  vertical-align: top;
+}
+
+.ling-table .strongs {
+  font-family: 'Spectral', serif;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+/* Application cards */
+.application {
+  margin: 2rem 0;
+  padding: 1.5rem 1.8rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03);
+  border: 1px solid rgba(200,169,110,0.15);
+}
+
+.application h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 0.6rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.application h4 .num {
+  font-family: 'Spectral', serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  min-width: 1.2rem;
+}
+
+.application p { text-align: left; margin-bottom: 0; }
+
+/* Conclusion highlight */
+.conclusion-highlight {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 2rem;
+}
+
+.conclusion-highlight .big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.conclusion-highlight .small {
+  font-family: 'Spectral', serif;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-top: 0.8rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Spectral', serif;
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  border-top: 1px solid var(--divider);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Scroll animations */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Print styles */
+@media print {
+  nav { display: none; }
+  .hero { padding-top: 2rem; }
+  .fade-in { opacity: 1; transform: none; }
+  body { font-size: 12pt; }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  html { font-size: 16px; }
+  .hero h1 { font-size: 3rem; }
+  .hero .hebrew { font-size: 2rem; }
+  .hero .subtitle { font-size: 1.4rem; }
+  nav .nav-links { display: none; }
+  .content { padding: 2rem 1.2rem 4rem; }
+  .ref-table { font-size: 0.8rem; }
+  .ref-table th, .ref-table td { padding: 0.5rem 0.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-title">Emmanuel — Word Study</div>
+    <ul class="nav-links">
+      <li><a href="#linguistic">Linguistic Analysis</a></li>
+      <li><a href="#occurrences">Occurrences</a></li>
+      <li><a href="#thread">Golden Thread</a></li>
+      <li><a href="#application">Application</a></li>
+      <li><a href="#reference">Reference</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="label">Comprehensive Word Study</div>
+  <h1>Emmanuel</h1>
+  <div class="hebrew">עִמָּנוּאֵל</div>
+  <div class="greek">Ἐμμανουήλ</div>
+  <div class="subtitle">"God With Us"</div>
+  <div class="meta">
+    A Study Across the Old &amp; New Testaments<br>
+    Isaiah 7:14 · Isaiah 8:8, 10 · Matthew 1:23<br>
+    and the Broader Biblical Theme of God's Presence
+  </div>
+</header>
+
+<!-- Content -->
+<main class="content">
+
+  <!-- INTRODUCTION -->
+  <section class="fade-in">
+    <h2><span class="section-num">Section I</span>Introduction</h2>
+    <p>Few words in all of Scripture carry the weight of theological meaning packed into the name <span class="key">Emmanuel</span>. It is a name that reaches across both Testaments, from the prophetic poetry of Isaiah to the birth narrative of Christ in Matthew, and its underlying theme—that God desires to dwell with His people—forms one of the great narrative threads of the entire Bible.</p>
+    <p>This study will examine the original languages, the specific passages where the word appears, the broader biblical theme of God's presence, and the practical implications for the life of every believer.</p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- LINGUISTIC ANALYSIS -->
+  <section id="linguistic" class="fade-in">
+    <h2><span class="section-num">Section II</span>Linguistic Analysis</h2>
+
+    <h3>A. The Hebrew: <span class="hebrew-inline">עִמָּנוּאֵל</span> (Immanu'el)</h3>
+    <p>The Hebrew name is a compound word made up of two components joined with a pronominal suffix:</p>
+
+    <table class="ling-table">
+      <thead>
+        <tr><th>Component</th><th>Reference</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ʿim</strong> (עִם)</td>
+          <td><span class="strongs">Strong's H5973</span></td>
+          <td>"With" — a preposition denoting accompaniment, nearness, togetherness</td>
+        </tr>
+        <tr>
+          <td><strong>-nū</strong> (נוּ)</td>
+          <td><span class="strongs">Pronominal suffix</span></td>
+          <td>"Us" — first person plural suffix, making it personal and communal</td>
+        </tr>
+        <tr>
+          <td><strong>'ēl</strong> (אֵל)</td>
+          <td><span class="strongs">Strong's H410</span></td>
+          <td>"God" — the short form of Elohim; denotes the Almighty, the one true God</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Combined, this yields: <strong><em>ʿimmānūʾēl</em></strong> — literally <strong>"With us [is] God"</strong> or <strong>"God [is] with us."</strong> The word is catalogued as Strong's Hebrew #6005. It is important to note the emphatic Hebrew word order: the phrase places "with us" first, as if to say, <em>"With us—God!"</em> It is a declaration, not merely a description.</p>
+
+    <h3>B. The Greek: <span class="greek-inline">Ἐμμανουήλ</span> (Emmanouēl)</h3>
+    <p>When the Hebrew Scriptures were translated into Greek in the Septuagint (LXX), the Hebrew <span class="hebrew-inline">עִמָּנוּאֵל</span> was transliterated as <span class="greek-inline">Ἐμμανουήλ</span> (Emmanouēl), catalogued as Strong's Greek #1694. The initial Hebrew letter <em>ayin</em> (ע), which carries an "I" vowel sound, was rendered with the Greek letter <em>epsilon</em> (Ε), giving us the "E" spelling. This is why the Old Testament typically uses "Immanuel" (from the Hebrew) while the New Testament uses "Emmanuel" (from the Greek). Both spellings refer to the same name and the same magnificent truth.</p>
+    <p>Matthew, writing in Greek, quotes Isaiah from the Septuagint and then provides his own translation for his readers: <span class="greek-inline">μεθ' ἡμῶν ὁ Θεός</span> — "with us, God" (Matthew 1:23).</p>
+
+    <h3>C. Thayer's Greek Lexicon Note</h3>
+    <p>Thayer's Lexicon defines Ἐμμανουήλ as "equivalent to savior, a name given to Christ by Matthew." According to the orthodox interpretation, the name denotes the personal union of the human and the divine in Christ—what the early church fathers would call the <span class="greek-inline">θεάνθρωπος</span> (theanthropos), the God-Man.</p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- EVERY OCCURRENCE -->
+  <section id="occurrences" class="fade-in">
+    <h2><span class="section-num">Section III</span>Every Occurrence of the Word</h2>
+    <p>The name Immanuel/Emmanuel appears by name only four times in the Bible—three times in Isaiah and once in Matthew. However, the concept behind the name saturates the whole of Scripture. Let us examine each direct occurrence.</p>
+
+    <h3>A. Isaiah 7:14 — The Prophecy Given</h3>
+    <div class="scripture">
+      <span class="ref">Isaiah 7:14 (ESV)</span>
+      <span class="text">"Therefore the Lord himself will give you a sign. Behold, the virgin shall conceive and bear a son, and shall call his name Immanuel."</span>
+    </div>
+
+    <h4>Historical Context</h4>
+    <p>The setting is the Syro-Ephraimite War, approximately 735–734 BC. King Ahaz of Judah faced a terrifying alliance: Pekah king of Israel (the northern kingdom, called Ephraim) and Rezin king of Syria had joined forces against Judah. Ahaz was paralyzed with fear and contemplating an alliance with the superpower Assyria. God, through the prophet Isaiah, offered Ahaz a sign of reassurance—any sign he wished, from the depths of Sheol to the heights of heaven. Ahaz, in a show of false piety, refused to ask.</p>
+    <p>So the Lord Himself gave the sign: a virgin (Hebrew <em>ʿalmah</em>, a young woman of marriageable age) would conceive and bear a son and name him Immanuel. Before the child would be old enough to distinguish right from wrong, the two threatening kings would be desolated. The name itself was the sign: <em>God is with us.</em> Despite Ahaz's unfaithfulness, God remained committed to His covenant with the house of David.</p>
+
+    <h4>The Hebrew Word ʿAlmah</h4>
+    <p>Much has been written about the Hebrew word <em>ʿalmah</em> used here rather than the more explicit <em>bĕtūlāh</em> (virgin). Scholar John Oswalt notes that <em>ʿalmah</em> refers to "a young woman of marriageable age," much like the English word "maiden," which carries an implication of virginity without making it the primary semantic point. When the Septuagint translators rendered this word, they chose the unambiguous Greek word <em>parthenos</em> ("virgin"), and it is this Greek word that Matthew quotes under the inspiration of the Holy Spirit. This suggests that the translators understood a deeper meaning in Isaiah's <em>ʿalmah</em>—one that would find its ultimate fulfillment in the virgin birth of Christ.</p>
+
+    <h4>Near and Far Fulfillment</h4>
+    <p>Many scholars recognize a dual or typological fulfillment in this prophecy. In the near term, it likely pointed to the birth of a child in Isaiah's own day (possibly his own son Maher-shalal-hash-baz, or a son of Ahaz), whose early years would mark the timeframe of Syria and Israel's destruction. But the ultimate, far fulfillment—the one Matthew highlights seven centuries later—was the birth of Jesus Christ to the virgin Mary.</p>
+
+    <h3>B. Isaiah 8:8 — The Land Belongs to Immanuel</h3>
+    <div class="scripture">
+      <span class="ref">Isaiah 8:8 (ESV)</span>
+      <span class="text">"...and it will sweep on into Judah, it will overflow and pass through, reaching even to the neck, and its outspread wings will fill the breadth of your land, O Immanuel."</span>
+    </div>
+    <p>Here Isaiah uses the name Immanuel in a strikingly possessive way—Judah is called <strong>"your land, O Immanuel."</strong> The Assyrian invasion would come like a flood, reaching even to the neck of Judah, but the land ultimately belonged not to Ahaz or any human king. It belonged to Immanuel. This is a powerful statement: though enemies threaten and overwhelm, the land—and by extension the people—belong to God. The floodwaters of judgment have a limit set by the One whose name means "God with us."</p>
+
+    <h3>C. Isaiah 8:10 — The Defiant Confession</h3>
+    <div class="scripture">
+      <span class="ref">Isaiah 8:10 (ESV)</span>
+      <span class="text">"Take counsel together, but it will come to nothing; speak a word, but it will not stand, for God is with us."</span>
+    </div>
+    <p>The final two words in the Hebrew of this verse are <strong><em>ʿimmānū ʾēl</em></strong>—an exact replication of the name Immanuel. This is no coincidence. Isaiah issues a bold, defiant proclamation to the nations conspiring against Judah: scheme all you want, devise your plans, speak your words of war—but <strong>none of it will stand, because God is with us!</strong></p>
+    <p>Scholars note that Isaiah 7–12 is sometimes called <strong>"The Book of Immanuel"</strong> because the name and its meaning pervade these chapters. The section moves from the sign of Immanuel (7:14) to the sovereignty of Immanuel (8:8–10) to the ultimate identity of Immanuel in the glorious throne names of Isaiah 9:6—Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace. The child whose name means "God with us" is the same child who will sit on David's throne forever.</p>
+
+    <h3>D. Matthew 1:23 — The Fulfillment Revealed</h3>
+    <div class="scripture">
+      <span class="ref">Matthew 1:22–23 (ESV)</span>
+      <span class="text">"All this took place to fulfill what the Lord had spoken by the prophet: 'Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel' (which means, God with us)."</span>
+    </div>
+    <p>Matthew's Gospel opens with a genealogy tracing Jesus' lineage from Abraham through David to Joseph, establishing Him as a rightful heir to the Davidic throne—the very "house of David" to whom the original Immanuel sign was given. When the angel appeared to Joseph in a dream, he was told that Mary's child was conceived by the Holy Spirit and was to be named Jesus, "for he will save his people from their sins."</p>
+    <p>Matthew then interprets this birth as the fulfillment of Isaiah's prophecy, and crucially, he translates the name for his readers: <em>"Emmanuel, which means God with us."</em> This is more than a title. It is a theological declaration of staggering proportions—this child is God Himself, come to dwell among humanity. The One who walked with Adam in the garden, who filled the tabernacle with His glory, who led Israel through the wilderness—He has now taken on human flesh and entered the world as a baby born to a virgin.</p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- THE GOLDEN THREAD -->
+  <section id="thread" class="fade-in">
+    <h2><span class="section-num">Section IV</span>The Golden Thread: "God With Us" Across Scripture</h2>
+    <p>While the name Immanuel appears only four times, the truth it expresses—God's desire to be present with His people—is arguably the central theme of the entire Bible. Consider this progression:</p>
+
+    <h3>A. In the Beginning: God Walking With Man</h3>
+    <div class="scripture">
+      <span class="ref">Genesis 3:8</span>
+      <span class="text">"And they heard the sound of the LORD God walking in the garden in the cool of the day..."</span>
+    </div>
+    <p>The earliest picture of God's relationship with humanity is one of intimate, personal presence. God walked with Adam and Eve. There was no barrier, no veil, no distance. Sin shattered that fellowship, and the rest of Scripture is the story of God working to restore it.</p>
+
+    <h3>B. The Patriarchs: "I Will Be With You"</h3>
+    <p>Throughout the patriarchal narratives, God repeatedly assures His people of His presence:</p>
+    <div class="scripture">
+      <span class="ref">Genesis 26:3 (to Isaac)</span>
+      <span class="text">"Sojourn in this land, and I will be with you and will bless you..."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Genesis 28:15 (to Jacob)</span>
+      <span class="text">"Behold, I am with you and will keep you wherever you go..."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Genesis 39:2 (of Joseph)</span>
+      <span class="text">"The LORD was with Joseph, and he became a successful man..."</span>
+    </div>
+    <p>The Hebrew phrase behind "I am with you" uses the same preposition (<em>ʿim</em>) that forms the first part of Immanuel. God's presence was not an abstract theological idea—it was the lived experience of His covenant people.</p>
+
+    <h3>C. The Exodus and Tabernacle: God Dwelling Among His People</h3>
+    <div class="scripture">
+      <span class="ref">Exodus 25:8</span>
+      <span class="text">"And let them make me a sanctuary, that I may dwell in their midst."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Exodus 33:14</span>
+      <span class="text">"My presence will go with you, and I will give you rest."</span>
+    </div>
+    <p>The construction of the tabernacle was the physical expression of Immanuel's reality. God instructed Moses to build a movable tent—not because God needed a house, but because He desired to journey with His people. When the tabernacle was completed, the glory of the LORD filled it so powerfully that even Moses could not enter (Exodus 40:34–35). The God of the universe had pitched His tent in the middle of an Israelite camp.</p>
+
+    <h3>D. The Psalms and Prophets: God's Presence as Comfort</h3>
+    <div class="scripture">
+      <span class="ref">Psalm 23:4</span>
+      <span class="text">"Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me..."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Psalm 46:7</span>
+      <span class="text">"The LORD of hosts is with us; the God of Jacob is our fortress."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Isaiah 41:10</span>
+      <span class="text">"Fear not, for I am with you; be not dismayed, for I am your God..."</span>
+    </div>
+    <p>The Psalms and Prophets are saturated with the language of God's presence. Psalm 46:7 uses nearly identical language to Isaiah 8:10—the God of hosts is "with us." The assurance of God's presence was the ultimate comfort in times of darkness, exile, and national crisis.</p>
+
+    <h3>E. The Incarnation: God Becomes Flesh</h3>
+    <div class="scripture">
+      <span class="ref">John 1:14</span>
+      <span class="text">"And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth."</span>
+    </div>
+    <p>The Greek word for "dwelt" here is <span class="greek-inline">eskēnōsen</span> (ἐσκήνωσεν), which literally means "tabernacled" or "pitched his tent." John is making a direct connection: just as God's glory filled the tabernacle in the wilderness, so now God's glory has filled a human body. Jesus is the ultimate tabernacle—the true and final dwelling place of God among humanity. He is Immanuel in the flesh.</p>
+
+    <h3>F. The Holy Spirit: God Living Within Us</h3>
+    <div class="scripture">
+      <span class="ref">John 14:16–17</span>
+      <span class="text">"And I will ask the Father, and he will give you another Helper, to be with you forever, even the Spirit of truth... You know him, for he dwells with you and will be in you."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">1 Corinthians 3:16</span>
+      <span class="text">"Do you not know that you are God's temple and that God's Spirit dwells in you?"</span>
+    </div>
+    <p>After Christ's ascension, the promise of "God with us" entered a new and even more intimate phase. The Holy Spirit now dwells not in a tent or a temple made of stone, but within the believers themselves. Each Christian's body is a temple of the Holy Spirit. The progression is breathtaking: God walked with Adam in a garden, dwelt among Israel in a tabernacle, walked the earth in human flesh, and now lives inside every person who puts their faith in Christ.</p>
+
+    <h3>G. The Great Commission: "I Am With You Always"</h3>
+    <div class="scripture">
+      <span class="ref">Matthew 28:20</span>
+      <span class="text">"...And behold, I am with you always, to the end of the age."</span>
+    </div>
+    <p>It is deeply significant that the same Gospel that begins with the promise of "Emmanuel—God with us" (Matthew 1:23) ends with the risen Christ declaring, "I am with you always." Matthew has bookended his entire Gospel with the Immanuel promise. From the cradle to the empty tomb and beyond, Jesus is "God with us."</p>
+
+    <h3>H. The Final Fulfillment: God's Dwelling Place With Man</h3>
+    <div class="scripture">
+      <span class="ref">Revelation 21:3</span>
+      <span class="text">"And I heard a loud voice from the throne saying, 'Behold, the dwelling place of God is with man. He will dwell with them, and they will be his people, and God himself will be with them as their God.'"</span>
+    </div>
+    <p>Here is the climax of the entire biblical story. What began in a garden, was promised through a prophet, was fulfilled in a manger, and was sustained by the Holy Spirit will reach its eternal completion in the New Jerusalem. God will dwell with His people face to face, with no sin, no veil, no distance, no sorrow. This is the ultimate and everlasting fulfillment of the name Immanuel—God with us, forever.</p>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- APPLICATION -->
+  <section id="application" class="fade-in">
+    <h2><span class="section-num">Section V</span>Application: What Emmanuel Means for Our Lives</h2>
+    <p>The truth of Immanuel is not merely a theological concept to be studied—it is a living reality meant to transform how we live each day. Here are the practical implications of "God with us":</p>
+
+    <div class="application">
+      <h4><span class="num">01</span> We Are Never Alone</h4>
+      <p>In a world marked by isolation, loneliness, and disconnection, the name Emmanuel speaks directly to the deepest human need: to be known and not abandoned. The God who named Himself "with us" has promised never to leave or forsake those who belong to Him (Hebrews 13:5). Whether you are in a hospital room, a broken marriage, a season of grief, or simply an ordinary Tuesday—God is with you. Not in theory. In reality. The same God who walked with Adam, led Israel through the Red Sea, and raised Jesus from the dead is present with you at this very moment through His Holy Spirit.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">02</span> We Can Face Any Enemy</h4>
+      <p>Isaiah 8:10 is a battle cry for the believer: "Devise your plan, but it will be thwarted. Speak your word, but it will not stand—for God is with us!" Just as the schemes of Syria and Ephraim came to nothing because God was with Judah, so the spiritual enemies that assail us—fear, accusation, temptation, despair—cannot ultimately prevail. Romans 8:31 echoes this same truth: "If God is for us, who can be against us?" The Immanuel principle means that no weapon formed against us will prosper (Isaiah 54:17), not because we are strong, but because the Almighty is with us.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">03</span> God Understands Our Suffering</h4>
+      <p>The incarnation means that God did not observe human suffering from a distance—He entered into it. Hebrews 4:15 tells us that we do not have a high priest who is unable to sympathize with our weaknesses, but one who was tempted in every way as we are, yet without sin. Emmanuel means God has walked where we walk. He knows hunger, exhaustion, betrayal, grief, and physical pain. When we cry out to God in our suffering, we are speaking to Someone who has been there—who chose to be there—out of love for us.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">04</span> Our Identity Is Redefined</h4>
+      <p>If God is "with us," then we are no longer defined by our failures, our past, our diagnoses, or our circumstances. We are defined by His presence. The same God who told Moses "My presence will go with you" (Exodus 33:14) and who told Joshua "I will be with you; I will not leave you or forsake you" (Joshua 1:5) has placed His Spirit inside every believer. We are, as Paul says, "the temple of the living God" (2 Corinthians 6:16). That changes everything about how we see ourselves.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">05</span> We Can Approach God Boldly</h4>
+      <p>Under the Old Covenant, the presence of God was awe-inspiring and terrifying. Even the high priest could only enter the Holy of Holies once a year, and even then with blood and incense, lest he die. But because of Emmanuel—because God came to us in Christ, bore our sins on the cross, and tore the temple veil from top to bottom—we can now "draw near to the throne of grace with confidence" (Hebrews 4:16). The distance has been closed. The wall has been torn down. Emmanuel made access to God not only possible but permanent.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">06</span> We Are Called to Be "God With Others"</h4>
+      <p>If God's heart has always been to be "with" His people, then the church's calling is to reflect that same posture to the world. Jesus said, "As the Father has sent me, even so I am sending you" (John 20:21). We are sent to be a tangible expression of God's presence to the lonely, the hurting, the lost, and the broken. When we visit the sick, sit with the grieving, feed the hungry, or simply show up for someone in their darkest hour, we are living out the Immanuel principle. We become the hands and feet of "God with us."</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">07</span> We Live With Eternal Hope</h4>
+      <p>The story of Immanuel does not end in this life. The promise of Revelation 21:3—that God's dwelling place will be with man forever—means that the best is yet to come. Every experience of God's presence we enjoy now is merely a foretaste of what awaits us. One day, the Immanuel promise will be fully and finally realized: no more pain, no more tears, no more separation. Just God and His people, together, face to face, for all eternity. As Paul wrote in Romans 8:38–39, nothing in all creation—neither death nor life, neither angels nor rulers, neither things present nor things to come—will be able to separate us from the love of God in Christ Jesus our Lord.</p>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- CONCLUSION -->
+  <section class="fade-in">
+    <h2><span class="section-num">Section VI</span>Conclusion</h2>
+    <p>The name Emmanuel is far more than a Christmas word. It is the heartbeat of the entire Bible. From the garden of Eden where God walked with man, through the tabernacle and temple where His glory dwelt, through the manger in Bethlehem where He took on flesh, through the cross where He bore our separation from God, through the empty tomb where He conquered death, through the gift of the Holy Spirit who lives within us today, and all the way to the New Jerusalem where we will see Him face to face—the message never changes:</p>
+
+    <div class="conclusion-highlight">
+      <div class="big">God is with us.</div>
+      <div class="small">He always has been. He is right now. And He always will be.</div>
+    </div>
+
+    <div class="scripture">
+      <span class="ref">Matthew 28:20b</span>
+      <span class="text">"And behold, I am with you always, to the end of the age."</span>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- REFERENCE TABLE -->
+  <section id="reference" class="fade-in">
+    <h2><span class="section-num">Appendix</span>Quick Reference — All Direct Occurrences</h2>
+
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Passage</th>
+          <th>Language</th>
+          <th>Form Used</th>
+          <th>Significance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="passage">Isaiah 7:14</td>
+          <td>Hebrew</td>
+          <td>Immanuel (as a name)</td>
+          <td>The prophetic sign given to the house of David; messianic promise of a virgin-born child</td>
+        </tr>
+        <tr>
+          <td class="passage">Isaiah 8:8</td>
+          <td>Hebrew</td>
+          <td>Immanuel (as address)</td>
+          <td>Judah is called Immanuel's land; the land belongs to God despite Assyrian invasion</td>
+        </tr>
+        <tr>
+          <td class="passage">Isaiah 8:10</td>
+          <td>Hebrew</td>
+          <td>Immanu-El (as declaration)</td>
+          <td>Defiant confession that enemy plans will fail because "God is with us"</td>
+        </tr>
+        <tr>
+          <td class="passage">Matthew 1:23</td>
+          <td>Greek</td>
+          <td>Emmanuel (as fulfillment)</td>
+          <td>Fulfillment of Isaiah's prophecy in the birth of Jesus Christ; Matthew translates the meaning</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  Word Study: Emmanuel / Immanuel · "God With Us"<br>
+  Prepared for group Bible study and discussion
+</footer>
+
+<script>
+// Scroll-triggered fade-in animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Navbar shadow on scroll
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+</script>
+
+</body>
+</html>
