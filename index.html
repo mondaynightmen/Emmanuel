@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emmanuel — Comprehensive Word Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C8A96E;
+  --gold-light: #D4BC8B;
+  --gold-faint: rgba(200, 169, 110, 0.08);
+  --ink: #1C1917;
+  --ink-soft: #3D3833;
+  --ink-muted: #78716C;
+  --cream: #FAF8F5;
+  --cream-dark: #F0EDE8;
+  --parchment: #F5F1EB;
+  --accent: #5B3A29;
+  --accent-light: #7D5A4F;
+  --scripture-bg: #F8F5F0;
+  --scripture-border: #D4BC8B;
+  --divider: #D6CFC4;
+  --discuss-bg: #F0F4F8;
+  --discuss-border: #7B9CB8;
+  --discuss-accent: #3D6B8E;
+  --struggle-bg: #FDF6F0;
+  --struggle-border: #C4956A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 18px; }
+
+body {
+  font-family: 'EB Garamond', 'Georgia', serif;
+  background: var(--cream);
+  color: var(--ink-soft);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(200,169,110,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(91,58,41,0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(200,169,110,0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(250, 248, 245, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--divider);
+  transition: box-shadow 0.3s ease;
+}
+nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+nav .nav-inner {
+  max-width: 900px; margin: 0 auto; padding: 0.6rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+nav .nav-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1rem; color: var(--accent); letter-spacing: 0.03em; }
+nav .nav-links { display: flex; gap: 1.2rem; list-style: none; flex-wrap: wrap; }
+nav .nav-links a { font-family: 'Spectral', serif; font-size: 0.72rem; color: var(--ink-muted); text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s; }
+nav .nav-links a:hover { color: var(--gold); }
+
+/* HERO */
+.hero { padding: 8rem 2rem 4rem; text-align: center; position: relative; }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 2px; background: var(--gold); }
+.hero .label { font-family: 'Spectral', serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 4.5rem; font-weight: 700; color: var(--ink); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+.hero .hebrew { font-family: 'Times New Roman', serif; font-size: 2.6rem; color: var(--ink-muted); margin-bottom: 0.3rem; direction: rtl; }
+.hero .greek { font-family: 'EB Garamond', serif; font-size: 1.5rem; font-style: italic; color: var(--ink-muted); margin-bottom: 2rem; }
+.hero .subtitle { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; font-style: italic; color: var(--accent-light); margin-bottom: 1rem; }
+.hero .meta { font-family: 'Spectral', serif; font-size: 0.82rem; color: var(--ink-muted); line-height: 1.8; }
+
+/* CONTENT */
+.content { max-width: 720px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+
+h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--ink); margin: 3.5rem 0 1rem; padding-top: 1rem; line-height: 1.25; }
+h2 .section-num { display: block; font-family: 'Spectral', serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 600; color: var(--accent); margin: 2.5rem 0 0.8rem; line-height: 1.3; }
+h4 { font-family: 'Spectral', serif; font-size: 1rem; font-weight: 600; color: var(--ink-soft); margin: 1.8rem 0 0.6rem; letter-spacing: 0.02em; }
+
+p { margin-bottom: 1.2rem; text-align: justify; hyphens: auto; }
+
+.scripture { margin: 1.5rem 0; padding: 1.2rem 1.5rem; background: var(--scripture-bg); border-left: 3px solid var(--scripture-border); border-radius: 0 6px 6px 0; }
+.scripture .ref { font-family: 'Spectral', serif; font-weight: 600; font-size: 0.85rem; color: var(--accent); letter-spacing: 0.03em; display: block; margin-bottom: 0.4rem; }
+.scripture .text { font-style: italic; color: var(--ink-soft); line-height: 1.7; font-size: 1rem; }
+
+/* Discussion question boxes */
+.discussion {
+  margin: 2rem 0;
+  padding: 1.3rem 1.5rem;
+  background: var(--discuss-bg);
+  border-left: 3px solid var(--discuss-border);
+  border-radius: 0 6px 6px 0;
+}
+.discussion .discuss-label {
+  font-family: 'Spectral', serif; font-weight: 600; font-size: 0.72rem;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--discuss-accent);
+  margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem;
+}
+.discussion .discuss-label::before { content: '💬'; font-size: 0.9rem; }
+.discussion ol, .discussion ul { margin: 0; padding-left: 1.3rem; }
+.discussion li { font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 0.5rem; line-height: 1.6; }
+
+/* Struggle / testimony blocks */
+.struggle {
+  margin: 2rem 0;
+  padding: 1.4rem 1.6rem;
+  background: var(--struggle-bg);
+  border-left: 3px solid var(--struggle-border);
+  border-radius: 0 6px 6px 0;
+}
+.struggle .struggle-label {
+  font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.15rem;
+  color: var(--accent); margin-bottom: 0.6rem;
+}
+.struggle p { text-align: left; margin-bottom: 0.8rem; font-size: 0.95rem; }
+.struggle p:last-child { margin-bottom: 0; }
+.struggle .quote-text { font-style: italic; color: var(--ink-soft); }
+
+.key { color: var(--accent); font-weight: 600; }
+.hebrew-inline { font-family: 'Times New Roman', serif; direction: rtl; unicode-bidi: isolate; }
+.greek-inline { font-style: italic; }
+.bold { font-weight: 600; }
+
+.divider { margin: 3rem auto; text-align: center; position: relative; }
+.divider::before { content: ''; display: block; width: 100%; height: 1px; background: var(--divider); position: absolute; top: 50%; }
+.divider span { position: relative; background: var(--cream); padding: 0 1.2rem; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--gold); }
+
+/* Tables */
+.ling-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0 1.5rem; font-size: 0.92rem; }
+.ling-table th { font-family: 'Spectral', serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--cream-dark); padding: 0.6rem 1rem; text-align: left; border-bottom: 2px solid var(--gold-light); }
+.ling-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--divider); vertical-align: top; }
+.ling-table .strongs { font-family: 'Spectral', serif; font-size: 0.8rem; color: var(--ink-muted); }
+
+.ref-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.88rem; }
+.ref-table th { font-family: 'Spectral', serif; font-weight: 600; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); background: var(--accent); padding: 0.7rem 1rem; text-align: left; }
+.ref-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--divider); vertical-align: top; }
+.ref-table tr:nth-child(even) td { background: var(--gold-faint); }
+.ref-table .passage { font-weight: 600; color: var(--accent); white-space: nowrap; }
+
+/* Application cards */
+.application { margin: 2rem 0; padding: 1.5rem 1.8rem; background: white; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.03); border: 1px solid rgba(200,169,110,0.15); }
+.application h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); margin: 0 0 0.6rem; display: flex; align-items: baseline; gap: 0.6rem; }
+.application h4 .num { font-family: 'Spectral', serif; font-size: 0.75rem; font-weight: 500; color: var(--gold); letter-spacing: 0.05em; min-width: 1.2rem; }
+.application p { text-align: left; margin-bottom: 0.8rem; }
+.application p:last-child { margin-bottom: 0; }
+
+.conclusion-highlight { text-align: center; margin: 2rem 0; padding: 2rem; }
+.conclusion-highlight .big { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 700; font-style: italic; color: var(--ink); line-height: 1.3; }
+.conclusion-highlight .small { font-family: 'Spectral', serif; font-size: 0.9rem; color: var(--ink-muted); margin-top: 0.8rem; }
+
+footer { text-align: center; padding: 2rem; font-family: 'Spectral', serif; font-size: 0.75rem; color: var(--ink-muted); border-top: 1px solid var(--divider); max-width: 720px; margin: 0 auto; }
+
+.fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@media print { nav { display: none; } .hero { padding-top: 2rem; } .fade-in { opacity: 1; transform: none; } body { font-size: 12pt; } }
+@media (max-width: 640px) { html { font-size: 16px; } .hero h1 { font-size: 3rem; } .hero .hebrew { font-size: 2rem; } .hero .subtitle { font-size: 1.4rem; } nav .nav-links { display: none; } .content { padding: 2rem 1.2rem 4rem; } .ref-table { font-size: 0.8rem; } .ref-table th, .ref-table td { padding: 0.5rem 0.6rem; } }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="nav-title">Emmanuel — Word Study</div>
+    <ul class="nav-links">
+      <li><a href="#linguistic">Language</a></li>
+      <li><a href="#occurrences">Occurrences</a></li>
+      <li><a href="#thread">Golden Thread</a></li>
+      <li><a href="#when-god-seems-absent">When God Seems Absent</a></li>
+      <li><a href="#application">Takeaways</a></li>
+      <li><a href="#reference">Reference</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="label">Comprehensive Word Study</div>
+  <h1>Emmanuel</h1>
+  <div class="hebrew">עִמָּנוּאֵל</div>
+  <div class="greek">Ἐμμανουήλ</div>
+  <div class="subtitle">"God With Us"</div>
+  <div class="meta">
+    A Study Across the Old &amp; New Testaments<br>
+    Isaiah 7:14 · Isaiah 8:8, 10 · Matthew 1:23<br>
+    Including the Struggle of God's Perceived Absence
+  </div>
+</header>
+
+<main class="content">
+
+  <!-- ============ INTRODUCTION ============ -->
+  <section class="fade-in">
+    <h2><span class="section-num">Section I</span>Introduction</h2>
+    <p>Few words in all of Scripture carry the weight of theological meaning packed into the name <span class="key">Emmanuel</span>. It is a name that reaches across both Testaments, from the prophetic poetry of Isaiah to the birth narrative of Christ in Matthew, and its underlying theme—that God desires to dwell with His people—forms one of the great narrative threads of the entire Bible.</p>
+    <p>But let's be honest from the start: if "God with us" is the promise, why have so many faithful people felt so utterly alone? This study will examine the original languages, the specific passages, the sweeping biblical theme of God's presence—and then confront the hard question that believers through the centuries have wrestled with: what does "God with us" mean when you can't feel Him at all?</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Opening Discussion</div>
+      <ol>
+        <li>When you hear the name "Emmanuel," what's the first thing that comes to mind—a Christmas carol, a theological idea, or something more personal?</li>
+        <li>Have you ever had a season where "God with us" felt more like a doctrine than a reality? What was that like?</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ LINGUISTIC ANALYSIS ============ -->
+  <section id="linguistic" class="fade-in">
+    <h2><span class="section-num">Section II</span>Linguistic Analysis</h2>
+
+    <h3>A. The Hebrew: <span class="hebrew-inline">עִמָּנוּאֵל</span> (Immanu'el)</h3>
+    <p>The Hebrew name is a compound word made up of two components joined with a pronominal suffix:</p>
+
+    <table class="ling-table">
+      <thead><tr><th>Component</th><th>Reference</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ʿim</strong> (עִם)</td><td><span class="strongs">Strong's H5973</span></td><td>"With" — a preposition denoting accompaniment, nearness, togetherness</td></tr>
+        <tr><td><strong>-nū</strong> (נוּ)</td><td><span class="strongs">Pronominal suffix</span></td><td>"Us" — first person plural suffix, making it personal and communal</td></tr>
+        <tr><td><strong>'ēl</strong> (אֵל)</td><td><span class="strongs">Strong's H410</span></td><td>"God" — the short form of Elohim; the Almighty, the one true God</td></tr>
+      </tbody>
+    </table>
+
+    <p>Combined, this yields: <strong><em>ʿimmānūʾēl</em></strong> — literally <strong>"With us [is] God"</strong> or <strong>"God [is] with us."</strong> Catalogued as Strong's Hebrew #6005. Note the emphatic Hebrew word order: the phrase places "with us" first, as if to say, <em>"With us—God!"</em> It is a declaration, not merely a description.</p>
+
+    <h3>B. The Greek: <span class="greek-inline">Ἐμμανουήλ</span> (Emmanouēl)</h3>
+    <p>When the Hebrew Scriptures were translated into Greek in the Septuagint (LXX), the Hebrew was transliterated as <span class="greek-inline">Ἐμμανουήλ</span> (Strong's Greek #1694). The initial Hebrew letter <em>ayin</em> (ע), which carries an "I" vowel sound, was rendered with the Greek <em>epsilon</em> (Ε), giving us the "E" spelling. This is why the Old Testament typically uses "Immanuel" (from the Hebrew) while the New Testament uses "Emmanuel" (from the Greek). Both refer to the same name and the same magnificent truth.</p>
+    <p>Matthew quotes Isaiah from the Septuagint and then translates for his readers: <span class="greek-inline">μεθ' ἡμῶν ὁ Θεός</span> — "with us, God" (Matthew 1:23). Thayer's Lexicon defines the word as "equivalent to savior, a name given to Christ by Matthew," denoting the personal union of the human and the divine in Christ.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>The Hebrew word order is emphatic: "With us—God!" How does that emphasis differ from simply saying "God is with us"? What's the emotional weight of putting "with us" first?</li>
+        <li>The name uses <em>'El</em> (God Almighty), not <em>Adonai</em> (Lord) or <em>YHWH</em>. Why might it matter that it's specifically <em>God</em>—the Almighty Creator—who is "with us"?</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ EVERY OCCURRENCE ============ -->
+  <section id="occurrences" class="fade-in">
+    <h2><span class="section-num">Section III</span>Every Occurrence of the Word</h2>
+    <p>The name Immanuel/Emmanuel appears by name only four times in the Bible—three times in Isaiah and once in Matthew. Let us examine each.</p>
+
+    <h3>A. Isaiah 7:14 — The Prophecy Given</h3>
+    <div class="scripture">
+      <span class="ref">Isaiah 7:14 (ESV)</span>
+      <span class="text">"Therefore the Lord himself will give you a sign. Behold, the virgin shall conceive and bear a son, and shall call his name Immanuel."</span>
+    </div>
+    <h4>Historical Context</h4>
+    <p>The setting is the Syro-Ephraimite War, approximately 735–734 BC. King Ahaz of Judah faced a terrifying alliance between Pekah of Israel and Rezin of Syria. Ahaz was paralyzed with fear and contemplating an alliance with Assyria. God, through Isaiah, offered Ahaz any sign he wished—from the depths of Sheol to the heights of heaven. Ahaz, in false piety, refused.</p>
+    <p>So the Lord Himself gave the sign: a virgin (Hebrew <em>ʿalmah</em>) would conceive, bear a son, and name him Immanuel. Before the child could distinguish right from wrong, the two threatening kings would be desolated. The name itself was the sign: <em>God is with us.</em> Despite Ahaz's unfaithfulness, God remained committed to His covenant with the house of David.</p>
+    <h4>Near and Far Fulfillment</h4>
+    <p>Many scholars recognize a dual or typological fulfillment. In the near term, it likely pointed to the birth of a child in Isaiah's day (possibly Maher-shalal-hash-baz or a son of Ahaz). But the ultimate fulfillment—the one Matthew highlights seven centuries later—was the birth of Jesus Christ to the virgin Mary. When the Septuagint translators rendered <em>ʿalmah</em> with the unambiguous Greek word <em>parthenos</em> ("virgin"), they understood a deeper meaning, one fulfilled in Christ.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Ahaz was terrified and faithless, yet God gave the sign anyway. What does it say about God's character that He promises "God with us" to a king who doesn't even want to hear from Him?</li>
+        <li>How does the idea of "near and far" fulfillment in prophecy strengthen your confidence in Scripture?</li>
+      </ol>
+    </div>
+
+    <h3>B. Isaiah 8:8 — The Land Belongs to Immanuel</h3>
+    <div class="scripture">
+      <span class="ref">Isaiah 8:8 (ESV)</span>
+      <span class="text">"...and it will sweep on into Judah, it will overflow and pass through, reaching even to the neck, and its outspread wings will fill the breadth of your land, O Immanuel."</span>
+    </div>
+    <p>Isaiah uses the name in a strikingly possessive way—Judah is called <strong>"your land, O Immanuel."</strong> The Assyrian invasion would come like a flood, reaching even to the neck, but the land belonged not to Ahaz. It belonged to Immanuel. The floodwaters of judgment have a limit set by the One whose name means "God with us."</p>
+
+    <h3>C. Isaiah 8:10 — The Defiant Confession</h3>
+    <div class="scripture">
+      <span class="ref">Isaiah 8:10 (ESV)</span>
+      <span class="text">"Take counsel together, but it will come to nothing; speak a word, but it will not stand, for God is with us."</span>
+    </div>
+    <p>The final two words in Hebrew are <strong><em>ʿimmānū ʾēl</em></strong>—an exact replication of the name Immanuel. Isaiah issues a bold proclamation to conspiring nations: scheme all you want—<strong>none of it will stand, because God is with us!</strong></p>
+    <p>Isaiah 7–12 is sometimes called <strong>"The Book of Immanuel."</strong> It moves from the sign (7:14) to the sovereignty (8:8–10) to the ultimate identity in the throne names of Isaiah 9:6—Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace.</p>
+
+    <h3>D. Matthew 1:23 — The Fulfillment Revealed</h3>
+    <div class="scripture">
+      <span class="ref">Matthew 1:22–23 (ESV)</span>
+      <span class="text">"All this took place to fulfill what the Lord had spoken by the prophet: 'Behold, the virgin shall conceive and bear a son, and they shall call his name Immanuel' (which means, God with us)."</span>
+    </div>
+    <p>Matthew traces Jesus' lineage from Abraham through David to Joseph, establishing Him as heir to the Davidic throne—the very "house of David" to whom the sign was given. He then translates the name for his readers: <em>"Emmanuel, which means God with us."</em> This is a theological declaration of staggering proportions—this child is God Himself, come to dwell among humanity.</p>
+    <p>It is deeply significant that Matthew's Gospel <em>begins</em> with "Emmanuel—God with us" (1:23) and <em>ends</em> with the risen Christ declaring, "I am with you always, to the end of the age" (28:20). The Immanuel promise bookends the entire Gospel.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Isaiah 8:10 is essentially a battle cry: "Go ahead and plot—God is with us!" When have you needed to speak that kind of defiant faith into a situation?</li>
+        <li>Matthew bookends his Gospel with the Immanuel promise (1:23 and 28:20). Why do you think he structured it that way? What is he telling us about Jesus' entire life and ministry?</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ THE GOLDEN THREAD ============ -->
+  <section id="thread" class="fade-in">
+    <h2><span class="section-num">Section IV</span>The Golden Thread: "God With Us" Across Scripture</h2>
+    <p>While the name Immanuel appears only four times, the truth it expresses—God's desire to be present with His people—is arguably the central theme of the entire Bible.</p>
+
+    <h3>A. In the Beginning: God Walking With Man</h3>
+    <div class="scripture">
+      <span class="ref">Genesis 3:8</span>
+      <span class="text">"And they heard the sound of the LORD God walking in the garden in the cool of the day..."</span>
+    </div>
+    <p>The earliest picture of God's relationship with humanity is intimate, personal presence. God walked with Adam and Eve. No barrier, no veil, no distance. Sin shattered that fellowship, and the rest of Scripture is the story of God working to restore it.</p>
+
+    <h3>B. The Patriarchs: "I Will Be With You"</h3>
+    <div class="scripture">
+      <span class="ref">Genesis 26:3 (to Isaac)</span>
+      <span class="text">"Sojourn in this land, and I will be with you and will bless you..."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Genesis 28:15 (to Jacob)</span>
+      <span class="text">"Behold, I am with you and will keep you wherever you go..."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Genesis 39:2 (of Joseph)</span>
+      <span class="text">"The LORD was with Joseph, and he became a successful man..."</span>
+    </div>
+    <p>The Hebrew phrase behind "I am with you" uses the same preposition (<em>ʿim</em>) that forms the first part of Immanuel. God's presence was the lived experience of His covenant people.</p>
+
+    <h3>C. The Tabernacle: God Dwelling Among His People</h3>
+    <div class="scripture">
+      <span class="ref">Exodus 25:8</span>
+      <span class="text">"And let them make me a sanctuary, that I may dwell in their midst."</span>
+    </div>
+    <p>The tabernacle was the physical expression of Immanuel's reality—a movable tent because God desired to journey with His people. When completed, the glory of the LORD filled it so powerfully that even Moses could not enter (Exodus 40:34–35).</p>
+
+    <h3>D. The Psalms and Prophets: God's Presence as Comfort</h3>
+    <div class="scripture">
+      <span class="ref">Psalm 23:4</span>
+      <span class="text">"Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me..."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Psalm 46:7</span>
+      <span class="text">"The LORD of hosts is with us; the God of Jacob is our fortress."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Isaiah 41:10</span>
+      <span class="text">"Fear not, for I am with you; be not dismayed, for I am your God..."</span>
+    </div>
+
+    <h3>E. The Incarnation: God Becomes Flesh</h3>
+    <div class="scripture">
+      <span class="ref">John 1:14</span>
+      <span class="text">"And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth."</span>
+    </div>
+    <p>The Greek word for "dwelt" is <span class="greek-inline">eskēnōsen</span> (ἐσκήνωσεν)—literally "tabernacled" or "pitched his tent." John draws a direct line: just as God's glory filled the tabernacle, now God's glory fills a human body. Jesus is Immanuel in the flesh.</p>
+
+    <h3>F. The Holy Spirit: God Living Within Us</h3>
+    <div class="scripture">
+      <span class="ref">John 14:16–17</span>
+      <span class="text">"And I will ask the Father, and he will give you another Helper, to be with you forever, even the Spirit of truth... You know him, for he dwells with you and will be in you."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">1 Corinthians 3:16</span>
+      <span class="text">"Do you not know that you are God's temple and that God's Spirit dwells in you?"</span>
+    </div>
+    <p>The progression is breathtaking: God walked with Adam in a garden, dwelt among Israel in a tabernacle, walked the earth in human flesh, and now lives <em>inside</em> every person who puts their faith in Christ.</p>
+
+    <h3>G. The Final Fulfillment: Revelation 21</h3>
+    <div class="scripture">
+      <span class="ref">Revelation 21:3</span>
+      <span class="text">"And I heard a loud voice from the throne saying, 'Behold, the dwelling place of God is with man. He will dwell with them, and they will be his people, and God himself will be with them as their God.'"</span>
+    </div>
+    <p>Here is the climax of the entire story. God will dwell with His people face to face—no sin, no veil, no distance, no sorrow. The ultimate and everlasting fulfillment of the name Immanuel.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Trace the progression: garden → tabernacle → temple → incarnation → Holy Spirit → New Jerusalem. At each stage, how does God's presence become <em>more</em> intimate, not less?</li>
+        <li>If we are now "temples of the Holy Spirit" (1 Cor. 3:16), how should that change the way we view our ordinary, everyday lives?</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ WHEN GOD SEEMS ABSENT ============ -->
+  <section id="when-god-seems-absent" class="fade-in">
+    <h2><span class="section-num">Section V</span>When God Seems Absent: The Honest Struggle With "God With Us"</h2>
+    <p>If "God with us" is the central promise of Scripture, then one of the most painful human experiences is the feeling that He isn't. Throughout history, some of the most faithful people have wrestled deeply with the apparent silence and absence of God. Their struggles don't disprove the Immanuel promise—they reveal its depth, complexity, and cost.</p>
+
+    <!-- JOB -->
+    <h3>A. Job: The Righteous Man Who Could Not Find God</h3>
+    <div class="scripture">
+      <span class="ref">Job 23:3, 8–10</span>
+      <span class="text">"Oh, that I knew where I might find him, that I might come even to his seat!... Behold, I go forward, but he is not there, and backward, but I do not perceive him; on the left hand when he is working, I do not behold him; he turns to the right hand, but I do not see him. But he knows the way that I take; when he has tested me, I shall come out as gold."</span>
+    </div>
+
+    <div class="struggle">
+      <div class="struggle-label">Job's Struggle</div>
+      <p>Job is the Bible's most extended case study in the felt absence of God. He was a man whom God Himself called "blameless and upright" (Job 1:8). And yet, when catastrophe struck—when he lost his children, his wealth, and his health—God went utterly silent. No explanation. No comfort. No visible presence. For chapter after chapter, Job searched desperately for a God who seemed to have vanished.</p>
+      <p>What makes Job's testimony so powerful is what he <em>didn't</em> do. He never stopped talking <em>to</em> God, even when God wasn't talking back. He argued, protested, wept, and demanded answers—but he never walked away. And notice the stunning declaration in the midst of his darkest moment: <span class="quote-text">"He knows the way that I take; when he has tested me, I shall come out as gold"</span> (23:10). Job could not <em>see</em> God, but he still believed God could see <em>him</em>.</p>
+      <p>When God finally speaks in chapters 38–41, He never explains the suffering. He simply reveals Himself—His power, His sovereignty, His presence. And for Job, that was enough. God's answer to the problem of suffering was not an explanation. It was <em>Himself</em>. It was Immanuel.</p>
+    </div>
+
+    <div class="scripture">
+      <span class="ref">Job 42:5</span>
+      <span class="text">"I had heard of you by the hearing of the ear, but now my eye sees you."</span>
+    </div>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Job never got an explanation for his suffering. He got God's <em>presence</em> instead. Is that enough? Would it be enough for you?</li>
+        <li>Job's friends insisted his suffering was punishment. How do bad theological explanations for suffering make God's perceived absence even worse?</li>
+        <li>Job 23:10 says "he knows the way that I take." How is it possible to believe God is <em>watching</em> even when you can't sense Him <em>near</em>?</li>
+      </ol>
+    </div>
+
+    <!-- THE PSALMS OF LAMENT -->
+    <h3>B. David and the Psalmists: Crying Out to a Silent God</h3>
+    <div class="scripture">
+      <span class="ref">Psalm 22:1–2</span>
+      <span class="text">"My God, my God, why have you forsaken me? Why are you so far from saving me, from the words of my groaning? O my God, I cry by day, but you do not answer, and by night, but I find no rest."</span>
+    </div>
+    <div class="scripture">
+      <span class="ref">Psalm 13:1–2</span>
+      <span class="text">"How long, O LORD? Will you forget me forever? How long will you hide your face from me? How long must I take counsel in my soul and have sorrow in my heart all the day?"</span>
+    </div>
+    <p>Roughly one-third of the Psalms are laments—raw, unfiltered cries to a God who seems distant. David, the man after God's own heart, repeatedly accused God of hiding His face. These are not the words of people who lacked faith. They are the words of people whose faith <em>demanded</em> that they keep talking to God even when He seemed silent.</p>
+    <p>What's remarkable about the lament psalms is their structure. They almost always move from complaint to trust, from darkness to declaration. Psalm 22 begins with "My God, why have you forsaken me?" and ends with "He has done it!" (v. 31). The psalmists modeled something essential: you can be brutally honest with God about His perceived absence and still choose to trust Him.</p>
+    <p>It's also deeply significant that Jesus Himself quoted Psalm 22:1 from the cross. On the day when God literally placed the sins of the world upon His Son, even Jesus experienced the agony of divine separation. If Immanuel Himself cried out, "Why have you forsaken me?" then we are in good company when we do the same.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>A third of the Psalms are laments. Does that surprise you? What does it tell us that God included so many raw, painful prayers in His Word?</li>
+        <li>Jesus quoted Psalm 22:1 from the cross. What does it mean that "God with us" Himself experienced being forsaken by God?</li>
+      </ol>
+    </div>
+
+    <!-- ELIE WIESEL -->
+    <h3>C. Elie Wiesel: The Camps, the Silence, and the Unresolved Question</h3>
+
+    <div class="struggle">
+      <div class="struggle-label">Elie Wiesel (1928–2016) — <em>Night</em></div>
+      <p>Elie Wiesel was a deeply devout Jewish teenager, passionate about studying the Talmud and the Kabbalah, when he was deported to Auschwitz in 1944 at the age of fifteen. In his memoir <em>Night</em>, he describes a faith that was systematically dismantled by the horrors he witnessed—the burning of children, the hanging of a young boy, the endless silence of heaven.</p>
+      <p>In one of the memoir's most searing passages, Wiesel describes watching a child die slowly on the gallows while a man behind him whispered, <span class="quote-text">"Where is God now?"</span> Wiesel writes that he heard a voice within himself answer: <span class="quote-text">"Where is He? He is here—hanging on this gallows."</span></p>
+      <p>During the observance of Rosh Hashanah in the camp, surrounded by ten thousand prisoners praising God, young Eliezer stood in bitter rebellion. He could not bring himself to bless the name of a God who, in his experience, had allowed crematoria to operate on the Sabbath and Holy Days.</p>
+      <p>And yet Wiesel's story is not a simple story of lost faith. Decades later, he reflected: <span class="quote-text">"I have never abandoned God. I had tremendous problems with God, and still do. Therefore I protest against God. Sometimes I bring God before the bench. Nevertheless, everything I do is done from within faith and not from outside."</span></p>
+      <p>In his 1986 Nobel lecture, Wiesel compared himself to Job: <span class="quote-text">"Let us remember Job who, having lost everything—his children, his friends, his possessions, and even his argument with God—still found the strength to begin again... Did he ever lose his faith? If so, he rediscovered it within his rebellion."</span></p>
+    </div>
+
+    <p>Wiesel's testimony is extraordinarily important for any honest study of "God with us." His struggle represents millions who have faced the darkest evil humanity can produce and asked the Immanuel question in its rawest form: <em>If God is with us, where was He?</em></p>
+    <p>Wiesel did not arrive at a neat answer. What he arrived at was something more like Job's posture—a refusal to stop talking to God, even in anger, even in protest. He once wrote that God's silence is not passive, and that an old Jewish poet once said, "God is not silent. God <em>is</em> silence." There is a difference between a God who doesn't care and a God whose ways are beyond our comprehension. Wiesel wrestled with that difference for the rest of his life.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Wiesel said, "Even when I speak <em>against</em> God, I speak <em>to</em> God." How is that different from abandoning faith entirely? Is angry prayer still prayer?</li>
+        <li>The rabbi in <em>Night</em> declared, "God is no longer with us." How do you respond to someone in a season of suffering who says the same thing?</li>
+        <li>Wiesel compared himself to Job. How are their experiences similar? How are they different?</li>
+        <li>Can someone believe in Immanuel—"God with us"—and still have unanswered questions about God's silence? Is that faith, or is that doubt?</li>
+      </ol>
+    </div>
+
+    <!-- MOTHER TERESA -->
+    <h3>D. Mother Teresa: Fifty Years of Darkness in God's Service</h3>
+
+    <div class="struggle">
+      <div class="struggle-label">Mother Teresa (1910–1997) — <em>Come Be My Light</em></div>
+      <p>When Mother Teresa's private letters were published after her death, the world was stunned. The woman universally regarded as a living saint—the woman whose very name was synonymous with radical love for God—had spent nearly fifty years in what she described as complete spiritual darkness.</p>
+      <p>In 1957 she wrote to her spiritual director: <span class="quote-text">"In the darkness... Lord, my God, who am I that you should forsake me? The child of your love—and now become as the most hated one. The one—you have thrown away as unwanted—unloved. I call, I cling, I want, and there is no one to answer."</span></p>
+      <p>In another letter: <span class="quote-text">"In my heart there is no faith—no love—no trust—there is so much pain—the pain of longing, of not being wanted—I want God with all the powers of my soul."</span></p>
+      <p>And yet she never stopped serving. She never stopped praying. She never stopped showing up in the slums of Calcutta to hold the dying. She eventually came to see her darkness not as God's abandonment but as a share in Christ's own suffering on the cross. She wrote: <span class="quote-text">"I have come to love the darkness—for I believe now that it is a part, a very, very small part, of Jesus' darkness and pain on earth."</span></p>
+    </div>
+
+    <p>Mother Teresa's experience shatters a dangerous assumption many Christians hold: that strong faith always <em>feels</em> like strong faith. Her life proves that obedience and faithfulness can exist entirely apart from emotional consolation. She chose "God with us" as a daily act of will, even when every fiber of her inner life screamed that God was absent. Her faithfulness was not based on feeling—it was based on covenant commitment.</p>
+    <p>Scholars of Christian spirituality are careful to distinguish her experience from clinical depression. Depression renders a person listless; Mother Teresa was relentlessly active. Depression diminishes virtue; her spiritual darkness deepened her compassion. What she experienced was what the Christian mystical tradition calls the "dark night of the soul"—a purifying season in which God removes the felt experience of His presence so that faith can learn to stand on its own, without props.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Mother Teresa served God faithfully for fifty years while feeling nothing. Does that challenge or strengthen your understanding of faith? Why?</li>
+        <li>She once wrote that she smiled outwardly as "a mask that covers everything." Is there a danger in Christian communities where people feel they must fake spiritual joy?</li>
+        <li>Can a person serve as a credible witness for "God with us" while privately struggling to feel His presence? What does Mother Teresa's example suggest?</li>
+      </ol>
+    </div>
+
+    <!-- WHY GOD SEEMS ABSENT -->
+    <h3>E. Why People Fail to Perceive "God With Us"</h3>
+    <p>If the Immanuel promise is real, why do so many people—including deeply faithful people—fail to perceive God's presence? Scripture and the testimony of believers across history suggest several reasons:</p>
+
+    <p><strong>1. We confuse God's presence with God's <em>feeling</em>.</strong> We expect Immanuel to come with warmth, peace, and emotional confirmation. But God's presence is not dependent on our perception of it. The sun doesn't stop shining because it's cloudy. Mother Teresa's life proves that God can be profoundly at work in and through someone who feels nothing at all.</p>
+
+    <p><strong>2. Suffering overwhelms our capacity to perceive.</strong> Extreme pain—physical, emotional, or psychological—can shut down our spiritual receptors. Wiesel said that in the camps, the starving "did not think about theology, nor did they think about God." Suffering doesn't mean God has left; it means we are in a condition where perceiving Him requires more than our natural capacities can provide.</p>
+
+    <p><strong>3. We look for the wrong kind of presence.</strong> Elijah expected God in the earthquake, wind, and fire—but God came in a still, small voice (1 Kings 19:11–12). We often expect dramatic intervention when God is present in quiet sustenance, in the person who shows up, in the breath we didn't expect to take.</p>
+
+    <p><strong>4. God sometimes withdraws felt consolation to deepen faith.</strong> This is the "dark night of the soul" described by St. John of the Cross—a stripping away of spiritual feelings so that faith can become truly unconditional. God is not being cruel; He is weaning us from needing to <em>feel</em> Him so that we can learn to <em>trust</em> Him.</p>
+
+    <p><strong>5. We interpret unanswered prayer as absence.</strong> Job demanded answers and received none for thirty-seven chapters. But God's silence was not God's absence. Sometimes "God with us" means God is with us in the mystery, in the not-knowing, in the waiting—and we mistake that patience for abandonment.</p>
+
+    <p><strong>6. Sin and disobedience can dull our awareness.</strong> Isaiah 59:2 is clear: "Your iniquities have made a separation between you and your God." Unlike the other causes on this list, this one has a straightforward remedy—confession and repentance. God has not moved; we have.</p>
+
+    <div class="discussion">
+      <div class="discuss-label">Discussion</div>
+      <ol>
+        <li>Which of these six reasons resonates most with your own experience or the experience of someone you know?</li>
+        <li>How do you distinguish between God's purposeful silence (as with Job or Mother Teresa) and a spiritual dullness caused by your own neglect or disobedience?</li>
+        <li>If someone who has experienced terrible suffering tells you, "I don't believe God is with me," what would you say—and what would you <em>not</em> say?</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ APPLICATIONS ============ -->
+  <section id="application" class="fade-in">
+    <h2><span class="section-num">Section VI</span>Takeaways: What Emmanuel Means for Our Lives</h2>
+    <p>In light of everything we've studied—the language, the prophecy, the golden thread, and the honest struggles of Job, Wiesel, Mother Teresa, and the psalmists—here are the truths we carry forward:</p>
+
+    <div class="application">
+      <h4><span class="num">01</span> God's Presence Is a Fact, Not a Feeling</h4>
+      <p>This may be the single most important takeaway. Feelings fluctuate. Circumstances overwhelm. Depression clouds. Suffering numbs. But "God with us" is not a mood—it is a covenant promise anchored in the character of God Himself. Hebrews 13:5 says, "I will never leave you nor forsake you." That promise doesn't say "you will always feel me near." It says <em>I will be there</em>. Mother Teresa felt nothing for fifty years and served God more faithfully than most of us ever will. The presence of Immanuel does not require your emotional confirmation to be real.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">02</span> Honest Lament Is an Act of Faith, Not a Loss of It</h4>
+      <p>Job argued with God. David accused God of hiding. Wiesel protested against God. The psalmists cried "How long?" And Jesus Himself quoted the lament of Psalm 22 from the cross. Every single one of them was speaking <em>to</em> God, not away from Him. Lament is the prayer of someone who still believes God is there and <em>should</em> be doing something. If you have ever shouted at God in anger or wept in confusion, you are in the company of the Bible's greatest heroes. The opposite of faith is not doubt—it is indifference. The person who argues with God still cares. The person who walks away does not.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">03</span> We Can Face Any Enemy Because of Whose We Are</h4>
+      <p>Isaiah 8:10 remains a battle cry: "Devise your plans—they will be thwarted. Speak your words—they will not stand. For God is with us!" Romans 8:31 echoes it: "If God is for us, who can be against us?" The enemies that assail us—fear, accusation, temptation, despair—cannot ultimately prevail. Not because we are strong, but because Immanuel's land cannot be permanently conquered.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">04</span> Emmanuel Entered Our Suffering—He Didn't Bypass It</h4>
+      <p>The incarnation means God did not observe human suffering from a distance. He entered it. Hebrews 4:15 tells us we have a high priest who sympathizes with our weaknesses, tempted in every way as we are. When the man at Auschwitz asked "Where is God?" and Wiesel's inner voice answered "He is here—hanging on this gallows," he was closer to a Christian truth than perhaps he realized. God in Christ entered the worst that humanity could produce—torture, injustice, abandonment, death—and absorbed it. Emmanuel does not mean God prevents our suffering. It means He walks into the middle of it with us.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">05</span> Perceiving God Requires Slowing Down and Looking in the Right Places</h4>
+      <p>Elijah expected the earthquake but found God in the whisper. We live in a world of noise, distraction, and constant stimulation that can drown out the "still, small voice." Sometimes failing to perceive "God with us" is not a crisis of faith—it's a crisis of attention. Spiritual disciplines like silence, solitude, prayer, and Scripture reading are not about earning God's presence. They are about positioning ourselves to notice the presence that was there all along.</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">06</span> We Are Called to Be "God With Others"</h4>
+      <p>If God's heart has always been to be "with" His people, then the church's calling is to reflect that to the world. Jesus said, "As the Father has sent me, even so I am sending you" (John 20:21). When we visit the sick, sit with the grieving, feed the hungry, or simply show up for someone in their darkest hour, we are living out the Immanuel principle. Mother Teresa could not feel God's presence in prayer—but the dying in Calcutta felt God's presence through <em>her</em>. Sometimes we are the answer to someone else's "Where is God?"</p>
+    </div>
+
+    <div class="application">
+      <h4><span class="num">07</span> The Dark Night Is Not the Final Chapter</h4>
+      <p>Job's story didn't end in the ash heap—it ended with restoration and a deeper knowledge of God (Job 42:5). The psalmists moved from "How long?" to "He has done it!" Mother Teresa now sees face to face. And the Bible's own story doesn't end with Good Friday's darkness—it ends with Revelation 21:3, where God's dwelling place is with man forever. Whatever darkness you are in right now—whether it lasts a week, a year, or a lifetime—it is not the last word. The last word belongs to Immanuel: <em>God with us</em>, face to face, for all eternity.</p>
+    </div>
+
+    <div class="discussion">
+      <div class="discuss-label">Final Discussion</div>
+      <ol>
+        <li>Of the seven takeaways, which one do you most need to hear right now? Why?</li>
+        <li>Think of someone in your life who is struggling to feel God's presence. How can you be "Immanuel" to them this week—God's presence made tangible through your actions?</li>
+        <li>If you could write one sentence to summarize what this word study has taught you, what would it be?</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ CONCLUSION ============ -->
+  <section class="fade-in">
+    <h2><span class="section-num">Section VII</span>Conclusion</h2>
+    <p>The name Emmanuel is far more than a Christmas word. It is the heartbeat of the entire Bible—and the honest cry of the human heart. From the garden of Eden where God walked with man, through the tabernacle where His glory dwelt, through the manger where He took on flesh, through the cross where He bore our separation from God, through the ash heap where Job refused to stop talking to Him, through the death camps where Wiesel protested against Him, through the slums of Calcutta where Mother Teresa served Him in darkness, through the gift of the Holy Spirit who lives within us today, and all the way to the New Jerusalem where we will see Him face to face—the message never changes:</p>
+
+    <div class="conclusion-highlight">
+      <div class="big">God is with us.</div>
+      <div class="small">He always has been. He is right now. And He always will be.<br>Whether we feel it or not.</div>
+    </div>
+
+    <div class="scripture">
+      <span class="ref">Matthew 28:20b</span>
+      <span class="text">"And behold, I am with you always, to the end of the age."</span>
+    </div>
+  </section>
+
+  <div class="divider"><span>✦</span></div>
+
+  <!-- ============ REFERENCE TABLE ============ -->
+  <section id="reference" class="fade-in">
+    <h2><span class="section-num">Appendix</span>Quick Reference — All Direct Occurrences</h2>
+    <table class="ref-table">
+      <thead><tr><th>Passage</th><th>Language</th><th>Form Used</th><th>Significance</th></tr></thead>
+      <tbody>
+        <tr><td class="passage">Isaiah 7:14</td><td>Hebrew</td><td>Immanuel (as a name)</td><td>Prophetic sign given to the house of David; messianic promise of a virgin-born child</td></tr>
+        <tr><td class="passage">Isaiah 8:8</td><td>Hebrew</td><td>Immanuel (as address)</td><td>Judah is called Immanuel's land; the land belongs to God despite Assyrian invasion</td></tr>
+        <tr><td class="passage">Isaiah 8:10</td><td>Hebrew</td><td>Immanu-El (as declaration)</td><td>Defiant confession that enemy plans will fail because "God is with us"</td></tr>
+        <tr><td class="passage">Matthew 1:23</td><td>Greek</td><td>Emmanuel (as fulfillment)</td><td>Fulfillment of Isaiah's prophecy in Jesus Christ; Matthew translates the meaning</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer>
+  Word Study: Emmanuel / Immanuel · "God With Us"<br>
+  Prepared for group Bible study and discussion
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
+</script>
+
+</body>
+</html>
